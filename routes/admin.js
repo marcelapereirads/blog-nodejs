@@ -14,21 +14,48 @@ router.get('/categories', (req, resp) => resp.render('admin/categories'));
 router.get('/categories/new', (req, resp) => resp.render('admin/new-category'));
 
 router.post('/categories/new', (req, resp) => {
-    const newCategory = {
-        name: req.body.name,
-        url: req.body.url
-    };
 
-    new Category(newCategory).save()
-        .then(() => {
-            req.flash('success_msg', 'Category created successfully');
-            resp.redirect('/admin/categories');
-        })
-        .catch((err) => {
-            console.log('Error saving category:', err);
-            req.flash('error_msg', 'Error saving category');
-            resp.redirect('/admin/categories');
-        });
+    if (validateCategory(req)) {
+        const newCategory = {
+            name: req.body.name,
+            url: req.body.url
+        };
+
+        new Category(newCategory).save()
+            .then(() => {
+                addAlert(req, 'success', 'Category created successfully');
+                redirectMain(resp);
+            })
+            .catch((err) => {
+                console.log('Error saving category:', err);
+                addAlert(req, 'error', 'Error saving category');
+                redirectMain(resp);
+            });
+    } else {
+        redirectMain(resp);
+    }
 });
+
+const addAlert = (req, type, message) => {
+    req.flash(type === 'success' ? 'success_msg' : 'error_msg', message);
+}
+
+const redirectMain = (resp) => {
+    resp.redirect('/admin/categories');
+}
+
+const validateCategory = (req) => {
+    if (!req.body.name) {
+        addAlert(req, 'error', 'Name is mandatory');
+        return false;
+    }
+
+    if (!req.body.url) {
+        addAlert(req, 'error', 'URL is mandatory');
+        return false;
+    }
+
+    return true;
+}
 
 module.exports = router;
