@@ -16,12 +16,19 @@ router.get('/categories/new', (req, resp) => resp.render('admin/new-category'));
 router.post('/categories/new', (req, resp) => {
     const newCategory = {
         name: req.body.name,
-        slug: req.body.url
+        url: req.body.url
     };
 
     new Category(newCategory).save()
-        .then(() => console.log('TO DO')) ///
-        .catch((err) => console.log('Error saving category:', err));
+        .then(() => {
+            req.flash('success_msg', 'Category created successfully');
+            resp.redirect('/admin/categories');
+        })
+        .catch((err) => {
+            console.log('Error saving category:', err);
+            req.flash('error_msg', 'Error saving category');
+            resp.redirect('/admin/categories');
+        });
 });
 
 module.exports = router;

@@ -4,8 +4,25 @@ const handlebars = require('express-handlebars');
 const mongoose = require('mongoose');
 const adminRoute = require('./routes/admin');
 const path = require('path');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(flash());
+
+app.use((req, resp, next) => {
+    resp.locals.success_msg = req.flash('success_msg');
+    resp.locals.error_msg = req.flash('error_msg');
+    next();
+});
+
 app.use(express.urlencoded({
     extended:true
 }));
