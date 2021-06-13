@@ -19,7 +19,7 @@ router.get('/categories', (req, resp) => {
         });
 });
 
-router.get('/categories/new', (req, resp) => resp.render('admin/new-category'));
+router.get('/categories/new', (req, resp) => resp.render('admin/form-category'));
 
 router.post('/categories/new', (req, resp) => {
 
@@ -41,6 +41,39 @@ router.post('/categories/new', (req, resp) => {
     } else {
         redirectMain(resp);
     }
+});
+
+router.get('/categories/edit/:id', (req, resp) => {
+    Category.findOne({ _id: req.params.id })
+        .then((category) => {
+            resp.render('admin/form-category', { category: category.toJSON() });
+        })
+        .catch((err) => {
+            console.log('Error querying category:', err);
+            addAlert(req, 'error', 'Error querying category');
+        });
+});
+
+router.post('/categories/edit/:id', (req, resp) => {
+    Category.findOne({ _id: req.params.id })
+        .then((category) => {
+            category.name = req.body.name;
+            category.url = req.body.url;
+
+            category.save()
+                .then(() => {
+                    addAlert(req, 'success', 'Category edited successfully');
+                    redirectMain(resp);
+                })
+                .catch((err) => {
+                    console.log('Error editing category:', err);
+                    addAlert(req, 'error', 'Error editing category');
+                });
+        })
+        .catch((err) => {
+            console.log('Error editing category:', err);
+            addAlert(req, 'error', 'Error editing category');
+        })
 });
 
 const addAlert = (req, type, message) => {

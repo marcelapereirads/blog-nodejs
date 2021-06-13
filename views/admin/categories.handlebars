@@ -1,17 +1,29 @@
 <div class="row mb-4">
-    <h2 class="col-9">Categories</h2>
-    <a href="/admin/categories/new" class="col-3">
-        <button class="btn btn-dark">New</button>
+    <h2 class="col-10">Categories</h2>
+    <a href="/admin/categories/new" class="col-2 d-flex justify-content-end">
+        <button class="btn btn-dark btn-lg d-flex align-items-center">
+            <img src="/svg/plus-ico.svg" alt="add category" class="ico">
+            <span>New</span>
+        </button>
     </a>
 </div>
 
 {{#each categories}}
     <div class="card mb-3">
         <div class="card-body">
-            <h5 class="card-title">{{name}}</h5>
             <div class="card-text">
+                <h5 class="card-title">{{name}}</h5>
                 <p>{{url}}</p>
-                <p class="formatDate">{{date}}</p>
+                <div class="row">
+                    <p class="formatDate col-8">{{date}}</p>
+                    <div class="d-flex justify-content-end col-4">
+                        <a href="/admin/categories/edit/{{_id}}">
+                            <button class="btn btn-secondary">
+                                <img src="/svg/pencil-ico.svg" alt="edit">
+                            </button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

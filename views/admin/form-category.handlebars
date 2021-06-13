@@ -1,0 +1,32 @@
+<h2>
+    {{#if category._id}}
+      Edit Category
+    {{else}}
+      New Category
+    {{/if}}
+</h2>
+<form
+  method="POST"
+  name="category"
+  {{#if category._id}}
+    action="/admin/categories/edit/{{category._id}}"
+  {{else}}
+    action="/admin/categories/new"
+  {{/if}}
+>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control required" id="name" name="name" value="{{category.name}}">
+    <div class="invalid-feedback">
+      Please provide a name.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="url" class="form-label">URL</label>
+    <input type="text" class="form-control required" id="url" name="url" value="{{category.url}}">
+    <div class="invalid-feedback">
+      Please provide an URL.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-dark disabled" id="submit">Submit</button>
+</form>
