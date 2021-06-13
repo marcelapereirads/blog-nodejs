@@ -1,6 +1,22 @@
-<div class="row">
+<div class="row mb-4">
     <h2 class="col-9">Categories</h2>
     <a href="/admin/categories/new" class="col-3">
         <button class="btn btn-dark">New</button>
     </a>
 </div>
+
+{{#each categories}}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <div class="card-text">
+                <p>{{url}}</p>
+                <p>{{date}}</p>
+            </div>
+        </div>
+    </div>
+{{else}}
+    <div class="card">
+        <p class="card-body">No category registered</p>
+    </div>
+{{/each}}

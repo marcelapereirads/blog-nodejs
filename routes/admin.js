@@ -9,7 +9,15 @@ router.get('/', (req, resp) => resp.render('admin/index'));
 
 router.get('/posts', (req, resp) => resp.send('Posts'));
 
-router.get('/categories', (req, resp) => resp.render('admin/categories'));
+router.get('/categories', (req, resp) => {
+    Category.find()
+        .then((categories) => resp.render('admin/categories', { categories: categories.map(cat => cat.toJSON()) }))
+        .catch((err) => {
+            console.log('Error listing category:', err);
+            addAlert(req, 'error', 'Error listing category');
+            redirectMain(resp);
+        });
+});
 
 router.get('/categories/new', (req, resp) => resp.render('admin/new-category'));
 
@@ -29,7 +37,6 @@ router.post('/categories/new', (req, resp) => {
             .catch((err) => {
                 console.log('Error saving category:', err);
                 addAlert(req, 'error', 'Error saving category');
-                redirectMain(resp);
             });
     } else {
         redirectMain(resp);
