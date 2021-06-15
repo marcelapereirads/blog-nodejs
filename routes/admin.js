@@ -51,6 +51,7 @@ router.get('/categories/edit/:id', (req, resp) => {
         .catch((err) => {
             console.log('Error querying category:', err);
             addAlert(req, 'error', 'Error querying category');
+            redirectMain(resp);
         });
 });
 
@@ -68,12 +69,27 @@ router.post('/categories/edit/:id', (req, resp) => {
                 .catch((err) => {
                     console.log('Error editing category:', err);
                     addAlert(req, 'error', 'Error editing category');
+                    redirectMain(resp);
                 });
         })
         .catch((err) => {
             console.log('Error editing category:', err);
             addAlert(req, 'error', 'Error editing category');
+            redirectMain(resp);
         })
+});
+
+router.get('/categories/delete/:id', (req, resp) => {
+    Category.remove({ _id: req.params.id })
+        .then(() => {
+            addAlert(req, 'success', 'Category deleted successfully');
+            redirectMain(resp);
+        })
+        .catch((err) => {
+            console.log('Error deleting category:', err);
+            addAlert(req, 'error', 'Error deleting category');
+            redirectMain(resp);
+        });
 });
 
 const addAlert = (req, type, message) => {
