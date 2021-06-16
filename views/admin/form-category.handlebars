@@ -23,7 +23,14 @@
   </div>
   <div class="mb-3">
     <label for="url" class="form-label">URL</label>
-    <input type="text" class="form-control required" id="url" name="url" value="{{category.url}}">
+    <input
+      type="text"
+      class="form-control required format-url"
+      id="url"
+      name="url"
+      value="{{category.url}}"
+      onchange="transformTextUrl()"
+    >
     <div class="invalid-feedback">
       Please provide an URL.
     </div>
