@@ -1,5 +1,5 @@
 <h2>
-    {{#if post._id}}
+    {{#if posts._id}}
       Edit Post
     {{else}}
       New Post
@@ -7,9 +7,9 @@
 </h2>
 <form
   method="POST"
-  name="post"
-  {{#if post._id}}
-    action="/admin/posts/edit/{{post._id}}"
+  name="posts"
+  {{#if posts._id}}
+    action="/admin/posts/edit/{{posts._id}}"
   {{else}}
     action="/admin/posts/new"
   {{/if}}
@@ -21,7 +21,7 @@
       class="form-control required"
       id="title"
       name="title"
-      value="{{post.title}}"
+      value="{{posts.title}}"
     >
     <div class="invalid-feedback">
       Please provide a title.
@@ -34,7 +34,7 @@
       class="form-control required format-url"
       id="url"
       name="url"
-      value="{{post.url}}"
+      value="{{posts.url}}"
       onchange="transformTextUrl()"
     >
     <div class="invalid-feedback">
@@ -48,7 +48,7 @@
       class="form-control required"
       id="description"
       name="description"
-      value="{{post.description}}"
+      value="{{posts.description}}"
     >
     <div class="invalid-feedback">
       Please provide a description.
@@ -56,7 +56,7 @@
   </div>
   <div class="mb-3">
     <label for="content" class="form-label">Content</label>
-    <textarea class="form-control required" id="content" name="content">{{post.content}}</textarea>
+    <textarea class="form-control required" id="content" name="content">{{posts.content}}</textarea>
     <div class="invalid-feedback">
       Please provide a text content.
     </div>
@@ -64,12 +64,27 @@
   <div class="mb-3">
     <label for="category" class="form-label">Category</label>
     <select class="form-select required" id="category" name="category">
-        <option selected></option>
+        <option
+          {{#unless posts._id}}
+            selected
+          {{/unless}}
+        ></option>
         {{#each categories}}
-            <option value="{{_id}}">{{name}}</option>
+            <option value="{{_id}}" id="option{{_id}}">
+              {{name}}
+            </option>              
         {{else}}
             <option disabled>No category registered</option>
         {{/each}}
+        <script>
+            const select = document.getElementById('category');
+
+            for (let j = 0; j <= select.options.length - 1; j++) {
+              if (select.options[j].value === '{{posts/category}}') {
+                select.selectedIndex = j;
+              }
+            }
+        </script>
     </select>
     <div class="invalid-feedback">
       Please provide a category.

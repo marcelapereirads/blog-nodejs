@@ -6,6 +6,7 @@ const adminRoute = require('./routes/admin');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
+const moment = require('moment');
 
 const app = express();
 
@@ -27,7 +28,12 @@ app.use(express.urlencoded({
     extended:true
 }));
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.engine('handlebars', handlebars({
+    defaultLayout: 'main',
+    helpers: {
+        formatDate: (date) => moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
+    }
+}));
 app.set('view engine', 'handlebars');
 
 mongoose.Promise = global.Promise;

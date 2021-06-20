@@ -140,7 +140,7 @@ router.get('/posts/edit/:id', (req, resp) => {
                 .then(categories => {
                     resp.render('admin/post-form', {
                         categories: categories.map(categories => categories.toJSON()),
-                        post: post.toJSON()
+                        posts: post.toJSON()
                     });
                 })
                 .catch(() => {
