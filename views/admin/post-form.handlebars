@@ -1,0 +1,79 @@
+<h2>
+    {{#if post._id}}
+      Edit Post
+    {{else}}
+      New Post
+    {{/if}}
+</h2>
+<form
+  method="POST"
+  name="post"
+  {{#if post._id}}
+    action="/admin/posts/edit/{{post._id}}"
+  {{else}}
+    action="/admin/posts/new"
+  {{/if}}
+>
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control required"
+      id="title"
+      name="title"
+      value="{{post.title}}"
+    >
+    <div class="invalid-feedback">
+      Please provide a title.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="url" class="form-label">URL</label>
+    <input
+      type="text"
+      class="form-control required format-url"
+      id="url"
+      name="url"
+      value="{{post.url}}"
+      onchange="transformTextUrl()"
+    >
+    <div class="invalid-feedback">
+      Please provide an URL.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input
+      type="text"
+      class="form-control required"
+      id="description"
+      name="description"
+      value="{{post.description}}"
+    >
+    <div class="invalid-feedback">
+      Please provide a description.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">Content</label>
+    <textarea class="form-control required" id="content" name="content">{{post.content}}</textarea>
+    <div class="invalid-feedback">
+      Please provide a text content.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="category" class="form-label">Category</label>
+    <select class="form-select required" id="category" name="category">
+        <option selected></option>
+        {{#each categories}}
+            <option value="{{_id}}">{{name}}</option>
+        {{else}}
+            <option disabled>No category registered</option>
+        {{/each}}
+    </select>
+    <div class="invalid-feedback">
+      Please provide a category.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-dark disabled" id="submit">Submit</button>
+</form>
