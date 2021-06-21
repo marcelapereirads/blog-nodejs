@@ -3,6 +3,7 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const mongoose = require('mongoose');
 const adminRoute = require('./routes/admin');
+const blogRoute = require('./routes/blog');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -44,6 +45,7 @@ mongoose.connect(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`, { us
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRoute);
+app.use('/', blogRoute);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${process.env.PORT}`));
