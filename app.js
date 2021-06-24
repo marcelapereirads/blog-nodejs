@@ -3,7 +3,9 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const mongoose = require('mongoose');
 const adminRoute = require('./routes/admin');
-const blogRoute = require('./routes/blog');
+const postRoute = require('./routes/post');
+const notFoundRoute = require('./routes/not-found');
+const Post = mongoose.model('posts');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -45,7 +47,22 @@ mongoose.connect(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`, { us
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRoute);
-app.use('/', blogRoute);
+app.use('/post', postRoute);
+
+
+app.get('/', (req, resp) => {
+    Post
+        .find()
+        .lean()
+        .populate('category')
+        .sort({ data: 'desc' })
+        .then(posts => resp.render('index', { posts } ))
+        .catch(() => {
+            resp.redirect('/not-found');
+        });
+});
+
+app.use('/not-found', notFoundRoute);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${process.env.PORT}`));

@@ -9,3 +9,20 @@ a {
 .action {
     margin-left: 0.4rem;
 }
+
+.not-found {
+    height: 35rem;
+}
+
+.not-found-title {
+    margin: 1.5rem;
+}
+
+.not-found-icon {
+    height: 12rem;
+}
+
+.not-found-link {
+    color: black;
+    text-decoration: underline;
+}
