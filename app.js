@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const adminRoute = require('./routes/admin');
 const postRoute = require('./routes/post');
 const notFoundRoute = require('./routes/not-found');
+const categoryRoute = require('./routes/category');
 const Post = mongoose.model('posts');
 const path = require('path');
 const session = require('express-session');
@@ -48,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRoute);
 app.use('/post', postRoute);
-
+app.use('/category', categoryRoute);
 
 app.get('/', (req, resp) => {
     Post

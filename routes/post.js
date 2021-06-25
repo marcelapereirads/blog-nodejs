@@ -7,13 +7,13 @@ const router = express.Router();
 const Post = mongoose.model('posts');
 
 router.get('/:url', (req, resp) => {
-    console.log('url', req.params.url);
     Post
         .findOne({ url: req.params.url })
+        .lean()
+        .populate('category')
         .then(post => {
             if (post) {
-                console.log('post', post);
-                resp.render('blog/post', { post: post.toJSON() });
+                resp.render('blog/post', { post: post });
             } else {
                 resp.redirect('/not-found');
             }

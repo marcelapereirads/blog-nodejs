@@ -3,7 +3,10 @@
         <div class="card-text">
             <h1 class="">{{post.title}}</h1>
             <p class="lead">{{post.description}}</p>
-            <p>{{formatDate date}}</p>
+            <p>
+                {{formatDate date}} in 
+                <a href="/category/{{post.category.url}}" class="text-danger">{{post.category.name}}</a>
+            </p>
             <hr class="my-4 text-danger">
             {{post.content}}
         </div>
