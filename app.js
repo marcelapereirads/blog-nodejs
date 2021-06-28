@@ -1,4 +1,3 @@
-require('dotenv/config');
 const express = require('express');
 const handlebars = require('express-handlebars');
 const mongoose = require('mongoose');
@@ -6,11 +5,15 @@ const adminRoute = require('./routes/admin');
 const postRoute = require('./routes/post');
 const notFoundRoute = require('./routes/not-found');
 const categoryRoute = require('./routes/category');
+const loginRoute = require('./routes/login');
 const Post = mongoose.model('posts');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
 const moment = require('moment');
+const passport = require('passport');
+require('./config/auth')(passport);
+require('dotenv/config');
 
 const app = express();
 
@@ -20,11 +23,16 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 app.use((req, resp, next) => {
     resp.locals.success_msg = req.flash('success_msg');
     resp.locals.error_msg = req.flash('error_msg');
+    resp.locals.error_auth = req.flash('error');
+    resp.locals.user = req.user || null;
     next();
 });
 
@@ -62,6 +70,8 @@ app.get('/', (req, resp) => {
             resp.redirect('/not-found');
         });
 });
+
+app.use('/login', loginRoute);
 
 app.use('/not-found', notFoundRoute);
 

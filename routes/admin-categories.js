@@ -3,8 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Category = mongoose.model('categories');
 const shared = require('./shared');
+const { authenticated } = require('../helpers/checkAuthentication');
 
-router.get('/', (req, resp) => {
+router.get('/', authenticated, (req, resp) => {
     Category.find()
         .then((categories) => resp.render('admin/categories', { categories: categories.map(cat => cat.toJSON()) }))
         .catch(() => {
@@ -13,9 +14,9 @@ router.get('/', (req, resp) => {
         });
 });
 
-router.get('/new', (req, resp) => resp.render('admin/category-form'));
+router.get('/new', authenticated, (req, resp) => resp.render('admin/category-form'));
 
-router.post('/new', (req, resp) => {
+router.post('/new', authenticated, (req, resp) => {
     const valid = validateCategory(req);
 
     if (valid) {
@@ -35,7 +36,7 @@ router.post('/new', (req, resp) => {
     }
 });
 
-router.get('/edit/:id', (req, resp) => {
+router.get('/edit/:id', authenticated, (req, resp) => {
     Category.findOne({ _id: req.params.id })
         .then((category) => {
             resp.render('admin/category-form', { category: category.toJSON() });
@@ -46,7 +47,7 @@ router.get('/edit/:id', (req, resp) => {
         });
 });
 
-router.post('/edit/:id', (req, resp) => {
+router.post('/edit/:id', authenticated, (req, resp) => {
     const valid = validateCategory(req);
 
     if (valid) {
@@ -74,7 +75,7 @@ router.post('/edit/:id', (req, resp) => {
     
 });
 
-router.get('/delete/:id', (req, resp) => {
+router.get('/delete/:id', authenticated, (req, resp) => {
     Category.remove({ _id: req.params.id })
         .then(() => {
             shared.addAlert(req, 'success', 'Category deleted successfully');

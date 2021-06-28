@@ -26,3 +26,12 @@
     color: black;
     text-decoration: underline;
 }
+
+.login-card {
+    max-width: 40rem;
+    margin: 6rem auto 0;
+}
+
+.login-button {
+    width: 100%;
+}

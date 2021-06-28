@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 const Category = mongoose.model('categories');
 const Post = mongoose.model('posts');
 const shared = require('./shared');
+const { authenticated } = require('../helpers/checkAuthentication');
 
-router.get('/', (req, resp) => {
+router.get('/', authenticated, (req, resp) => {
     Post
         .find()
         .lean()
@@ -18,7 +19,7 @@ router.get('/', (req, resp) => {
         });
 });
 
-router.get('/new', (req, resp) => {
+router.get('/new', authenticated, (req, resp) => {
     Category
         .find()
         .then((categories) => resp.render('admin/post-form', { categories: categories.map(cat => cat.toJSON()) }))
@@ -28,7 +29,7 @@ router.get('/new', (req, resp) => {
         });
 });
 
-router.post('/new', (req, resp) => {
+router.post('/new', authenticated, (req, resp) => {
     if (validatePost(req)) {
         const newPost = {
             ...req.body
@@ -45,7 +46,7 @@ router.post('/new', (req, resp) => {
     }
 });
 
-router.get('/edit/:id', (req, resp) => {
+router.get('/edit/:id', authenticated, (req, resp) => {
     Post
         .findOne({ _id: req.params.id })
         .then(post => {
@@ -68,7 +69,7 @@ router.get('/edit/:id', (req, resp) => {
         });
 });
 
-router.post('/edit/:id', (req, resp) => {
+router.post('/edit/:id', authenticated, (req, resp) => {
     if (validatePost(req)) {
         Post
             .findOne({ _id: req.params.id })
@@ -92,7 +93,7 @@ router.post('/edit/:id', (req, resp) => {
     }
 });
 
-router.get('/delete/:id', (req, resp) => {
+router.get('/delete/:id', authenticated, (req, resp) => {
     Post.remove({ _id: req.params.id })
         .then(() => {
             shared.addAlert(req, 'success', 'Post deleted successfully');

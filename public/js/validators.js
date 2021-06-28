@@ -12,7 +12,7 @@ const addInputListener = (() => {
   const fields =  document.getElementsByClassName(CLASSES.requiredField);
   const eventName = 'blur';
 
-  for (var i = 0; i < fields.length; i++) {
+  for (let i = 0; i < fields.length; i++) {
     const input = fields[i];
 
     input.addEventListener(eventName, (ev) => validateInput(input, ev.target.value));

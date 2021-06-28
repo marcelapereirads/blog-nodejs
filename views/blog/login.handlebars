@@ -1,0 +1,27 @@
+<div class="card login-card">
+    <h2 class="card-header">
+      Sign to continue
+    </h2>
+  <div class="card-body">
+    <form method="POST" action="/login">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control required" name="email">
+        <div class="invalid-feedback">
+          Please provide an email.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control required" name="password">
+        <div class="invalid-feedback">
+          Please provide a password.
+        </div>
+      </div>
+      {{#if error_auth}}
+        <div class="alert alert-danger">{{error_auth}}</div>
+      {{/if}}
+      <button type="submit" class="btn btn-dark disabled login-button" id="submit">Login</button>
+    </form>
+  </div>
+</div>

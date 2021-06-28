@@ -2,7 +2,7 @@ const transformTextUrl = () => {
     const formatUrlClass = 'format-url';
     const texts = document.getElementsByClassName(formatUrlClass);
 
-    for (var i = 0; i < texts.length; i++) {
+    for (let i = 0; i < texts.length; i++) {
         let textValue = texts[i].value;
 
         textValue = textValue.trim().replaceAll(' ', '-').toLowerCase();
