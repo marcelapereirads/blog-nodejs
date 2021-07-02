@@ -6,6 +6,7 @@ const postRoute = require('./routes/post');
 const notFoundRoute = require('./routes/not-found');
 const categoryRoute = require('./routes/category');
 const loginRoute = require('./routes/login');
+const logoutRoute = require('./routes/logout');
 const Post = mongoose.model('posts');
 const path = require('path');
 const session = require('express-session');
@@ -72,6 +73,8 @@ app.get('/', (req, resp) => {
 });
 
 app.use('/login', loginRoute);
+
+app.use('/logout', logoutRoute);
 
 app.use('/not-found', notFoundRoute);
 
