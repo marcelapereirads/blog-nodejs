@@ -1,3 +1,15 @@
+.nav-item {
+    margin: 0 1rem;
+}
+
+.nav-link:hover, .nav-link:visited {
+    color: rgba(255,255,255,.75);
+}
+
+.link-active {
+    color: white !important;
+}
+
 .link-button {
     text-decoration: none;
 }

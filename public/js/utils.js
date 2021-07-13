@@ -16,3 +16,15 @@ const transformTextUrl = () => {
         texts[i].value = textValue;
     }
 }
+
+const verifyActiveRoute = (() => {
+    const linkClass = 'nav-menu-link';
+    const activeClass = 'link-active';
+    const links = document.getElementsByClassName(linkClass);
+
+    for (let i = 0; i < links.length; i++) {
+        if (links[i].getAttribute('href') === window.location.pathname) {
+            links[i].classList.add(activeClass);
+        }
+    }
+})()
