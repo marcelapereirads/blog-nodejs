@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Category = mongoose.model('categories');
 const shared = require('./shared');
-const { authenticated } = require('../helpers/checkAuthentication');
+const { authenticated } = require('../public/js/checkAuthentication');
 
 router.get('/', authenticated, (req, resp) => {
     Category.find()
@@ -63,7 +63,6 @@ router.post('/edit/:id', authenticated, (req, resp) => {
                     })
                     .catch((err) => {
                         shared.addAlert(req, 'error', 'Error editing category');
-                        console.log('err1', err);
                         redirectMain(resp);
                     });
             })

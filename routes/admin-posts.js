@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Category = mongoose.model('categories');
 const Post = mongoose.model('posts');
 const shared = require('./shared');
-const { authenticated } = require('../helpers/checkAuthentication');
+const { authenticated } = require('../public/js/checkAuthentication');
 
 router.get('/', authenticated, (req, resp) => {
     Post
